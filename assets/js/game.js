@@ -1,20 +1,26 @@
 
-let playerName = window.prompt("What is your robot's Name?");
+let playerName = window.prompt("What is your robot's name?");
 let playerHealth = 100;
 let playerAttack = 10;
 let playerMoney = 10;
 
-// Using multiple values
-// console.log(playerName, playerHealth, playerAttack);
 
-let enemyName = "Roborto";
+let enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 let enemyHealth = 50;
 let enemyAttack = 12;
-// console.log(enemyName, enemyHealth, enemyAttack);
 
-let fight = function () {
+
+// GAME STATE
+
+// "WIN" - player defeats all enemies
+//      Fight all enemies
+//       Deafeat each enemy
+// "LOSE" - player losses all health
+
+
+let fight = function (enemyName) {
   // GAME INIT ALERT
-  window.alert("Welcome to Robot Gladiators");
+  // window.alert("Welcome to Robot Gladiators");
   // FIGHT PROMPT
   let promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?  Enter 'FIGHT' or 'SKIP' to choose.")
 
@@ -35,6 +41,8 @@ let fight = function () {
     }
     // Subtract enemyAttack value from playerHealth and update the result of playerHealth accordingly
     playerHealth = playerHealth - enemyAttack;
+    // log the info
+    console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining");
 
     // PLAYER Health check
     if (playerHealth <= 0) {
@@ -62,5 +70,7 @@ let fight = function () {
   }
 };  //end of fight function
 
-// start fight function
-fight();
+for (let i = 0; i < enemyNames.length; i++) {
+  // start fight function
+  fight(enemyNames[i]);
+}
