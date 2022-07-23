@@ -94,17 +94,27 @@ let startGame = function () {
       // debugger;
 
       fight(pickedEnemyName);
-    }
-    else {
+      // if not at last enemy
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        // ask player to shop
+        let storeConfirm = window.confirm("This fight is over, visit the store");
+
+        // if yes, take them to the store
+        if (storeConfirm) {
+          shop();
+        }
+      }
+    } else {
       window.alert("You have lost your robot in battle! Game Over!");
       break;
     }
   }
   endGame();
 };
-// endGame();
+
 
 let endGame = function () {
+  window.alert("Game ended. Lets see how you did!");
   if (playerHealth > 0) {
     window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ". ")
   } else {
@@ -119,4 +129,54 @@ if (playAgainConfirm) {
   startGame();
 } else {
   window.alert("Thanks for playing! Come back soon!")
-}
+};
+
+let shop = function () {
+  // console.log("entered shop");
+  let shopOptPrompt = window.prompt(
+    "Would you: REFILL, UPGRADE, Leave? Enter one."
+  );
+  switch (shopOptPrompt) {
+    case "REFILL": //new case
+    case "refill":
+      if (playerMoney >= 7) {
+        window.alert("Refilling your health for 7 bucks.");
+
+        // money for health transaction
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("u BROKE!");
+      }
+
+
+      break;
+    case "UPGRADE":
+    case "upgrade":
+      if (playerMoney >= 7) {
+        window.alert("Upgrading attack by 6 for 7 bucks.");
+
+        // attack for money
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("u BROKE!");
+      }
+
+
+      break;
+    case "LEAVE":
+    case "leave":
+      window.alert("Leaving the store.");
+
+      // nothing done, so end function
+      break;
+    default:
+      window.alert("Select a valid option. Try again.");
+
+      // call shop to force selection
+      shop();
+      break;
+  }
+};
+startGame();
