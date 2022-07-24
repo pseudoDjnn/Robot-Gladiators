@@ -13,7 +13,7 @@ let getPlayerName = function () {
     name = prompt("What is your robot's name?")
   }
 
-  console.log("Your robot's name is" + name);
+  console.log("Your robot's name is " + name);
   return name;
 }
 
@@ -76,14 +76,14 @@ let fightOrSkip = function () {
   promptFight = promptFight.toLowerCase();
 
   // SKIP this to stop loop
-  if (promptFight === "skip" || promptFight === "SKIP") {
+  if (promptFight === "skip") {
     let confirmSkip = window.prompt("Are you sure?");
 
     // (TRUE), leave fight
     if (confirmSkip) {
       window.alert(playerInfo.name + " has skipped the fight!");
       // subtract the money
-      playerInfo.playerMoney = Math.max(0, playerInfo.money - 10);
+      playerInfo.money = Math.max(0, playerInfo.money - 10);
 
       // return true if you want to leave
       return true;
@@ -97,6 +97,7 @@ let fightOrSkip = function () {
 let fight = function (enemy) {
   // WHILE LOOP EXECUTE
   while (playerInfo.health > 0 && enemy.health > 0) {
+    // let promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?  Enter your choice.");
 
     if (fightOrSkip()) {
       // TRUE? leave the fight and break the loop
@@ -156,29 +157,23 @@ let fight = function (enemy) {
 let shop = function () {
   // console.log("entered shop");
   let shopOptPrompt = window.prompt(
-    "Would you: REFILL, UPGRADE, Leave? Enter one."
+    "Would you: REFILL, UPGRADE, Leave? Enter 1, 2, 3."
   );
+  // debugger;
+  shopOptPrompt = parseInt(shopOptPrompt);
+
   switch (shopOptPrompt) {
-    case "REFILL": //new case
-    case "refill":
+    case 1:
       playerInfo.refillHealth();
-
       break;
-    case "UPGRADE":
-    case "upgrade":
+    case 2:
       playerInfo.upgradeAttack();
-
       break;
-    case "LEAVE":
-    case "leave":
+    case 3:
       window.alert("Leaving the store.");
-
-      // nothing done, so end function
       break;
     default:
       window.alert("Select a valid option. Try again.");
-
-      // call shop to force selection
       shop();
       break;
   }
@@ -229,7 +224,7 @@ let startGame = function () {
 let endGame = function () {
   window.alert("Game ended. Lets see how you did!");
   if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + money + ". ")
+    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ". ")
   } else {
     window.alert("You've lost your robot in battle.");
   }
