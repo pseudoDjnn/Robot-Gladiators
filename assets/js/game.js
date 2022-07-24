@@ -33,14 +33,15 @@ let fight = function (enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight.  Goodbye!");
         // subtract money from player
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney: " + playerMoney);
         break;
       }
     }
+    let enemyDamage = randomNumber(playerAttack - 3, playerAttack);
 
     // Subtract playerAttack value from enemyHealth and update the result of enemyHealth accordingly
-    enemyHealth = enemyHealth - playerAttack;
+    enemyHealth = Math.max(0, enemyHealth - enemyDamage);
     // log the info into the console to see it works properly
     console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
 
@@ -55,8 +56,9 @@ let fight = function (enemyName) {
     } else {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
+    let playerDamage = randomNumber(enemyAttack - 3, enemyAttack)
     // Subtract enemyAttack value from playerHealth and update the result of playerHealth accordingly
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - playerDamage);
     // log the info
     console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining");
 
@@ -68,67 +70,6 @@ let fight = function (enemyName) {
       window.alert(playerName + " still has " + playerHealth + " health left.");
     }
   }
-};
-
-
-// WRAPPER start function 
-let startGame = function () {
-  // stat reset
-  playerHealth = 100;
-  playerAttack = 10;
-  playerMoney = 10;
-
-  for (let i = 0; i < enemyNames.length; i++) {
-    if (playerHealth > 0) {
-
-      // Let players know round
-      window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-
-      // picks enemy based off index
-      let pickedEnemyName = enemyNames[i];
-
-      // health reset when new round starts
-      enemyHealth = 50;
-
-      // added debugger to provide check
-      // debugger;
-
-      fight(pickedEnemyName);
-      // if not at last enemy
-      if (playerHealth > 0 && i < enemyNames.length - 1) {
-        // ask player to shop
-        let storeConfirm = window.confirm("This fight is over, visit the store");
-
-        // if yes, take them to the store
-        if (storeConfirm) {
-          shop();
-        }
-      }
-    } else {
-      window.alert("You have lost your robot in battle! Game Over!");
-      break;
-    }
-  }
-  endGame();
-};
-
-
-let endGame = function () {
-  window.alert("Game ended. Lets see how you did!");
-  if (playerHealth > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ". ")
-  } else {
-    window.alert("You've lost your robot in battle.");
-  }
-};
-let playAgainConfirm =
-  window.confirm("Would you like to play agian?");
-
-if (playAgainConfirm) {
-  // restart the game
-  startGame();
-} else {
-  window.alert("Thanks for playing! Come back soon!")
 };
 
 let shop = function () {
@@ -179,4 +120,71 @@ let shop = function () {
       break;
   }
 };
+
+let randomNumber = function (min, max) {
+  let value = Math.floor(Math.random() * (max - min + 1) + min);
+  return value;
+};
+
+// WRAPPER start function 
+let startGame = function () {
+  // stat reset
+  playerHealth = 100;
+  playerAttack = 10;
+  playerMoney = 10;
+
+  for (let i = 0; i < enemyNames.length; i++) {
+    if (playerHealth > 0) {
+
+      // Let players know round
+      window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+
+      // picks enemy based off index
+      let pickedEnemyName = enemyNames[i];
+
+      // health reset when new round starts
+      enemyHealth = randomNumber(40, 60);
+
+      // added debugger to provide check
+      // debugger;
+
+      fight(pickedEnemyName);
+      // if not at last enemy
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        // ask player to shop
+        let storeConfirm = window.confirm("This fight is over, visit the store");
+
+        // if yes, take them to the store
+        if (storeConfirm) {
+          shop();
+        }
+      }
+    } else {
+      window.alert("You have lost your robot in battle! Game Over!");
+      break;
+    }
+  }
+  endGame();
+};
+
+
+let endGame = function () {
+  window.alert("Game ended. Lets see how you did!");
+  if (playerHealth > 0) {
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ". ")
+  } else {
+    window.alert("You've lost your robot in battle.");
+  }
+};
+let playAgainConfirm =
+  window.confirm("Would you like to play agian?");
+
+if (playAgainConfirm) {
+  // restart the game
+  startGame();
+} else {
+  window.alert("Thanks for playing! Come back soon!")
+};
+
+
 startGame();
