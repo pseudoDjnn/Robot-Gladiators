@@ -231,21 +231,34 @@ let startGame = function () {
 
 
 let endGame = function () {
+
   window.alert("Game ended. Lets see how you did!");
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ". ")
+
+  // Checks for localstorage high score, f nothing 0
+  let highScore = localStorage.getItem("highScore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+
+  // More money sets new high score if abovc new 
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highScore", playerInfo.name);
+    localStorage.setItem("name", playerInfo.name);
+
+
+    alert(playerInfo.name + "You now have the new high score of " + playerInfo.money + "!")
   } else {
-    window.alert("You've lost your robot in battle.");
+    alert(playerInfo.name + "You did not beat " + highScore + ". Try again!");
   }
 };
 let playAgainConfirm =
-  window.confirm("Would you like to play agian?");
+  window.confirm("Play agian?");
 
 if (playAgainConfirm) {
   // restart the game
   startGame();
 } else {
-  window.alert("Thanks for playing! Come back soon!")
+  window.alert("Thank you for playing!")
 };
 
 
